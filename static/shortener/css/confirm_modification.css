@@ -1,0 +1,33 @@
+.passwordRevealWrapper {
+    padding: 20px 0;
+}
+.newPasswordWrapper.hide {
+    display: none;
+}
+.action-btns {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+.action-btns button {
+    display: block;
+    padding: 11px 14px;
+    border-radius: 3px;
+    border: none;
+    color: white;
+
+}
+.action-btns button:hover {
+    box-shadow: 0px 0px 10px -3px black;
+    opacity: 0.8;
+}
+.action-btn.edit {
+    background-color: rgb(53, 53, 255);
+}
+.action-btn.confirm {
+    background-color: rgb(253, 47, 47);
+}
+.action-btn.cancel {
+    background-color: rgb(100, 100, 100);
+}

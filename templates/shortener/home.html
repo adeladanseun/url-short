@@ -1,0 +1,84 @@
+{% extends 'base.html' %} 
+{% load static %} 
+{% block title %}URL Shortener{%endblock %} 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'shortener/css/shortener.css' %}" />
+{% endblock %} 
+{% block content %}
+<div class="card">
+  <div class="form-group">
+    <input
+      type="url"
+      id="originalUrl"
+      class="input-field"
+      placeholder="Enter your long URL here..."
+      autocomplete="off"
+      required
+    />
+  </div>
+  <div class="form-group">
+    <div class="checkbox-wrapper">
+      <input type="checkbox" id="enablePassword" />
+      <label for="enablePassword">Password protect this URL</label>
+    </div>
+    <div id="passwordSection" class="password-section">
+      <div class="password-wrapper">
+        <input
+          type="password"
+          id="urlPassword"
+          class="input-field"
+          placeholder="Enter password"
+          autocomplete="new-password"
+        />
+        <div class="checkbox-wrapper">
+          <input type="checkbox" id="showPassword" />
+          <label for="showPassword">Show password</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <button id="shortenButton" class="button">Shorten URL</button>
+
+  <div id="result" class="result">
+    <h2 class="result-title">Your Shortened URL:</h2>
+    <div class="short-url-wrapper">
+      <input type="text" id="shortUrl" class="short-url-input" readonly />
+      <button id="copyButton" class="copy-button">Copy</button>
+    </div>
+    <div id="passwordProtectedMsg" class="protected-message">
+      🔒 This URL is password protected
+    </div>
+  </div>
+</div>
+
+{% if user.is_authenticated and user_urls %}
+<div class="card urls-list">
+  <h2 class="section-title">Your URLs</h2>
+  <div class="url-items">
+    {% for url in user_urls %}
+      <div class="url-item">
+        <div class="url-content">
+          <div class="url-details">
+            <p class="original-url">{{ url.original_url }}</p>
+            <a href="/{{ url.short_url }}" class="short-url-link">
+              {{ request.build_absolute_uri }}{{ url.short_url }}
+            </a>
+          </div>
+          <div class="url-stats">
+            <span class="click-count">Clicks: {{ url.clicks }}</span>
+            {% if url.is_password_protected %}
+            <span class="lock-icon">🔒</span>
+            {% endif %}
+          </div>
+          <div class="user-actions">
+            <a class="user-action edit" href="{% url 'shortener:modify_request' url.id %}">Edit</a>
+            <a class="user-action delete" href="{% url 'shortener:modify_request' url.id %}">Delete</a>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %} {% endblock %} {% block extra_js %}
+<script src="{% static 'shortener/js/shortener.js' %}"></script>
+{% endblock %}
